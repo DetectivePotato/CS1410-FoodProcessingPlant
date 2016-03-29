@@ -1,26 +1,25 @@
 
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 public class FoodList 
 {
 
 	private static ArrayList<Food> FOOD_LIST = new ArrayList<Food>();
-	private static Set<String> FOOD_TYPES = new HashSet<String>();
+	private static String[] FOOD_TYPES = 	{
+												"Cheese",
+												"BlueCheese",
+												"SoupPowder"
+											};
 		
-	public static  void addFood(Food food)
+	public static void addFood(Food food)
 	{
 		FOOD_LIST.add(food);
-		FOOD_TYPES.add(food.getClass().getName());
 	}
 	
 	public static void removeFood(Food food)
-	{
-	
-		FOOD_LIST.remove(food);
-		
+	{	
+		FOOD_LIST.remove(food);		
 		food = null;
 	}
 	
@@ -32,5 +31,13 @@ public class FoodList
 		removeFood(food);
 	}
 	
+	public static int getNumFoodTypes()
+	{
+		return FOOD_TYPES.length;
+	}
 	
+	public static String getFoodType(int index)
+	{
+		return FOOD_TYPES[index];
+	}
 }

@@ -90,6 +90,10 @@ public abstract class Machine
 	{
 		PROCESSING_STAGES = newStages;
 	}
+	public static int getProcessingStages()
+	{
+		return PROCESSING_STAGES;
+	}
 	
 	public abstract boolean queueItem(Food newFood);
 	
