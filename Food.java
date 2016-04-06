@@ -2,10 +2,13 @@
 
 public abstract class Food {
 	protected Machine currentMachine;
+	private boolean perishable;
 
-	public Food()
+	public Food(boolean perishable)
 	{
 		currentMachine = null;
+		this.perishable = perishable;
+		FoodList.addFood(this);
 	}
 	public Machine getCurrentMachine()
 	{
@@ -15,5 +18,10 @@ public abstract class Food {
 	public void setCurrentMachine(Machine m)
 	{
 		currentMachine = m;
+	}
+	
+	public boolean isPerishable()
+	{
+		return perishable;
 	}
 }

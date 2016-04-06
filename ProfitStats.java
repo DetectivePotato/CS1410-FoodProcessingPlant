@@ -34,4 +34,10 @@ public class ProfitStats
 		return LOST_ITEMS;
 	}
 	
+	public static void reset()
+	{
+		LOST_ITEMS = 0;
+		PACKED_ITEMS = 0;
+	}
+	
 }

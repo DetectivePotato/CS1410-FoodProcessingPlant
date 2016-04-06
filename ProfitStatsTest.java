@@ -21,9 +21,10 @@ public class ProfitStatsTest {
 	
 	@Test
 	public void testProfit() 
-	{
-		
+	{		
 		assertEquals(1.30, ProfitStats.profit(), 0.0001);
+		
+		ProfitStats.reset();
 	}
-
+	
 }

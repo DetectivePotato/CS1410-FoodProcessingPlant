@@ -1,11 +1,16 @@
 
 
-
+/**
+ * ProcessingMachine extends Machine implementing multiple stages of processing/
+ * It also includes type checked queueing and dynamic outputs
+ * 
+ * @author Anthony
+ */
 public class ProcessingMachine extends Machine 
 {
 	private String foodType;
 	private int stage;
-	private int currentStage = 1;
+	static int PROCESSING_STAGES = 1;
 	
 	public ProcessingMachine(int processingTime, String foodType, int newStage)
 	{
@@ -37,12 +42,11 @@ public class ProcessingMachine extends Machine
 	
 	public void output(Food outputFood)
 	{
-		if(currentStage != PROCESSING_STAGES)
+		if(stage != PROCESSING_STAGES)
 		{
 			ProcessingMachine processor = MachineList.getNextProcessor(foodType, stage);
 			
 			processor.queueItem(outputFood);
-			currentStage++;
 		}
 		else
 		{
@@ -60,5 +64,22 @@ public class ProcessingMachine extends Machine
 	public int getStage()
 	{
 		return stage;
+	}
+	
+	/**
+	*	Change the current number of processing stages in the system
+	*	@param newStages the new number of procesing stages
+	*/
+	public void setProcessingStages(int newStages)
+	{
+		PROCESSING_STAGES = newStages;
+	}
+
+	/**
+	*	Return the number of processing stages in the system
+	*/
+	public static int getProcessingStages()
+	{
+		return PROCESSING_STAGES;
 	}
 }

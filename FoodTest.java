@@ -12,25 +12,22 @@ public class FoodTest {
 	@Before
 	public void setup()
 	{
-		c = new Cheese();
-		bc = new Bluecheese();
+		c = new Cheese(40);
+		bc = new Bluecheese(45);
 	}
 
 	@Test
 	public void testIncretmentAge(){
 		assertFalse(c.isSpoiled());
-		for(int i = 0; i<50; i++){
+		for(int i = 0; i<50; i++)
+		{
 			if(c == null)
 				break;
-			c.incrementAge();
+			else
+				FoodList.ageFood();
 		}
-		assertTrue(c.isSpoiled());
-
-		assertFalse(bc.isSpoiled());
-		for(int i = 0; i<50; i++){
-			bc.incrementAge();
-		}
-		assertTrue(bc.isSpoiled());
+		assertNull(c);
+		assertNotNull(bc);
 	}
 	@Test
 	public void testGetCurrentMachine()
