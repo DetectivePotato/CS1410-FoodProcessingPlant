@@ -40,7 +40,7 @@ public class FoodList
 	public static void spoilFood(Food food)
 	{
 		Machine foodMachine = food.getCurrentMachine();
-		//foodMachine.remove(food);
+		foodMachine.remove(food);
 		removeFood(food);
 	} 
 	
