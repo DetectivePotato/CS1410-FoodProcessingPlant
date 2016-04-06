@@ -1,5 +1,9 @@
 
-
+/**
+ * PackingMachine extends the Machine class implementing simple queue and output methods
+ * 
+ * @author Anthony Wall
+ */
 
 public class PackingMachine extends Machine 
 {

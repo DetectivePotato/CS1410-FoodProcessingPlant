@@ -1,5 +1,7 @@
 import static org.junit.Assert.*;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -10,13 +12,13 @@ public class MachineTest
 	
 	private static Cheese cheese1;
 	
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception 
+	@Before
+	public void setUp() throws Exception 
 	{
 		packer = new PackingMachine(3);
 		processor = new ProcessingMachine(2, "Cheese", 1);
 		
-		cheese1 = new Cheese();
+		cheese1 = new Cheese(40);
 	}
 
 	@Test
@@ -52,5 +54,12 @@ public class MachineTest
 		
 		assertEquals(0.1, ProfitStats.profit(), 0.001);
 	}
-
+	
+	@After
+	public void tearDown()
+	{
+		packer = null;
+		processor = null;
+		cheese1 = null;
+	}
 }

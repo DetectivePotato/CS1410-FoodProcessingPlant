@@ -71,4 +71,17 @@ public class MachineList
 	{
 		return PACKERS.size();
 	}
+	
+	public static String printDetails()
+	{
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("Machines\n");
+		sb.append("\nProcessors: ");
+		sb.append(getNumberofProcessors());
+		sb.append("\nPackers:    ");
+		sb.append(getNumberofPackers());
+		
+		return sb.toString();
+	}
 }

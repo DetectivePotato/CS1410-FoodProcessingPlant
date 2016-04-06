@@ -2,6 +2,10 @@
 
 import java.util.ArrayList;
 
+/**
+*	FoodList stores a list of all current Food objects in the system and food types used.
+*	It also provides a method for handling the removal of spoiled Foods from the system.
+*/
 public class FoodList 
 {
 
@@ -23,14 +27,6 @@ public class FoodList
 		food = null;
 	}
 	
-	public static void dispose(Food food)
-	{
-		
-		Machine machine = food.getCurrentMachine();
-		machine.remove(food);
-		removeFood(food);
-	}
-	
 	public static int getNumFoodTypes()
 	{
 		return FOOD_TYPES.length;
@@ -39,5 +35,25 @@ public class FoodList
 	public static String getFoodType(int index)
 	{
 		return FOOD_TYPES[index];
+	}
+
+	public static void spoilFood(Food food)
+	{
+		Machine foodMachine = food.getCurrentMachine();
+		//foodMachine.remove(food);
+		removeFood(food);
+	} 
+	
+	public static void ageFood()
+	{
+		for(Food food : FOOD_LIST)
+		{
+			if(food.isPerishable())
+			{
+				Perishable perishable = (Perishable) food;
+				
+				perishable.incrementAge();
+			}
+		}
 	}
 }
