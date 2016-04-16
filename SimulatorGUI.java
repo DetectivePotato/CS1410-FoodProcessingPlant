@@ -16,14 +16,11 @@ public class SimulatorGUI {
 	 
 		private JFrame mainFrame;
 		private JTextArea profits;	
-		private Simulator simulator;
-		private FoodFactory foodFac;
-		private MachineFactory machineFac;
+
 		
-		public SimulatorGUI(FoodFactory foodFac, MachineFactory machineFac){
+		public SimulatorGUI(){
 		final int blankSpace = 6;
-		this.foodFac = foodFac;
-		this.machineFac = machineFac;
+
 		
 		// Step 1: create the components
 		JButton runButton = new JButton();
@@ -31,20 +28,22 @@ public class SimulatorGUI {
 		profits = new JTextArea();
 		profits.setEditable(false);
 		JScrollPane listScroller = new JScrollPane(profits);
-		JTextField qProbability = new JTextField();
+		final JTextField qProbability = new JTextField();
 		JLabel qLabel = new JLabel("Q Probability");
-		JTextField pProbability = new JTextField();
+		final JTextField pProbability = new JTextField();
 		JLabel pLabel = new JLabel("P Probability");
-		JTextField numSteps = new JTextField();
+		final JTextField numSteps = new JTextField();
 		JLabel stepsLabel = new JLabel("Simulation Steps");
-		JTextField numCheese = new JTextField();
-		JLabel cheeseLabel = new JLabel("Cheese Processors:");
-		JTextField numBlueCheese = new JTextField();
-		JLabel blueCheeseLabel = new JLabel("Blue Cheese Processors:");
-		JTextField numSoup = new JTextField();
-		JLabel soupLabel = new JLabel("Soup powder Processors:");
-		JTextField numPackers = new JTextField();
-		JLabel packersLabel = new JLabel("Packers:");
+		final JTextField numPerishable = new JTextField();
+		JLabel perishLabel = new JLabel("perishable Processing Time:");
+		final JTextField numNonPerishable = new JTextField();
+		JLabel nPerishLabel = new JLabel("Non-perishable Processing time:");
+		final JTextField numPackers = new JTextField();
+		JLabel packersLabel = new JLabel("Packing Time:");
+		final JTextField stages = new JTextField();
+		JLabel stagesLabel = new JLabel("Number of stages");
+		final LabelledSlider qSlider = new LabelledSlider("Q Probability: ", 1, 5,3);
+		final LabelledSlider pSlider = new LabelledSlider("P Probability: ", 1, 5,3);
 		
 		// Step 2: Set the properties of the components
 		runButton.setText("Run");
@@ -56,12 +55,15 @@ public class SimulatorGUI {
 				+ "Values must be set between 0-1");
 		pProbability.setToolTipText("set the probability for the creation of non-perishible foods.\n " 
 				+ "Values must be set between 0-1");
-		numCheese.setToolTipText("Set the number of cheese processing machines.");
-		numBlueCheese.setToolTipText("Set the number of blue cheese processing machines.");
-		numSoup.setToolTipText("Set the number of soup powder processing machines.");
-		numPackers.setToolTipText("Set the number of packing machines.");
+		numPerishable.setToolTipText("Set the number of steps it takes for a perishable processing machine to process its item.");
+		stages.setToolTipText("Set the number of stages.");
+		numNonPerishable.setToolTipText("Set the nummber of steps it takes for a Non-perishable processing machine to process an item.");
+		numPackers.setToolTipText("Set the number of steps it takes a packing machine to pack an item.");
+		qSlider.setMajorTickSpacing(5);
+		pSlider.setMajorTickSpacing(5);
 		listScroller.setPreferredSize(new Dimension(300,300));
 		listScroller.setMinimumSize(new Dimension(200,200));
+		
 		
 		// Step 3: Create containers to hold the components
 		mainFrame = new JFrame("Factory simulation");
@@ -71,13 +73,15 @@ public class SimulatorGUI {
 		JPanel pBox = new JPanel();
 		JPanel qBox = new JPanel();
 		JPanel inputBox = new JPanel();
-		JPanel cheeseBox = new JPanel();
-		JPanel blueCheeseBox = new JPanel();
-		JPanel soupBox = new JPanel();
+		JPanel perishBox = new JPanel();
+		JPanel nPerishBox = new JPanel();
 		JPanel packerBox = new JPanel();
 		JPanel machineBox = new JPanel();
 		JPanel processorBox = new JPanel();
 		JPanel commandBox = new JPanel();
+		JPanel stageBox = new JPanel();
+		JPanel qProbBox = new JPanel();
+		JPanel pProbBox = new JPanel();
 		mainFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		
 		
@@ -92,27 +96,30 @@ public class SimulatorGUI {
 		JPanel profitBox = (JPanel) mainFrame.getContentPane();
 		profitBox.setBorder(new 
 				EmptyBorder(blankSpace, blankSpace, blankSpace, blankSpace));
-		cheeseBox.setLayout(new BorderLayout());
-		blueCheeseBox.setLayout(new BorderLayout());
-		soupBox.setLayout(new BorderLayout());
+		perishBox.setLayout(new BorderLayout());
+		nPerishBox.setLayout(new BorderLayout());
 		packerBox.setLayout(new BorderLayout());
 		machineBox.setLayout(new BorderLayout());
 		processorBox.setLayout(new BorderLayout());
 		commandBox.setLayout(new BorderLayout());
-		
+		stageBox.setLayout(new BorderLayout());
+		qProbBox.setLayout(new BorderLayout());
+		pProbBox.setLayout(new BorderLayout());
 		
 		// Step 5: Add components to containers
+		pProbBox.add(pSlider, BorderLayout.CENTER);
+		qProbBox.add(qSlider, BorderLayout.CENTER);
+		stageBox.add(stages, BorderLayout.CENTER);
+		stageBox.add(stagesLabel, BorderLayout.WEST);
 		packerBox.add(packersLabel, BorderLayout.WEST);
 		packerBox.add(numPackers, BorderLayout.CENTER);
-		soupBox.add(soupLabel, BorderLayout.WEST);
-		soupBox.add(numSoup, BorderLayout.CENTER);
-		blueCheeseBox.add(blueCheeseLabel, BorderLayout.WEST);
-		blueCheeseBox.add(numBlueCheese, BorderLayout.CENTER);
-		cheeseBox.add(cheeseLabel, BorderLayout.WEST);
-		cheeseBox.add(numCheese, BorderLayout.CENTER);
-		processorBox.add(cheeseBox, BorderLayout.NORTH);
-		processorBox.add(blueCheeseBox, BorderLayout.CENTER);
-		processorBox.add(soupBox, BorderLayout.SOUTH);
+		nPerishBox.add(nPerishLabel, BorderLayout.WEST);
+		nPerishBox.add(numNonPerishable, BorderLayout.CENTER);
+		perishBox.add(perishLabel, BorderLayout.WEST);
+		perishBox.add(numPerishable, BorderLayout.CENTER);
+		processorBox.add(perishBox, BorderLayout.NORTH);
+		processorBox.add(stageBox, BorderLayout.CENTER);
+		processorBox.add(nPerishBox, BorderLayout.SOUTH);
 		machineBox.add(processorBox, BorderLayout.CENTER);
 		machineBox.add(packerBox, BorderLayout.SOUTH);
 		buttonBox.add(runButton);
@@ -123,9 +130,9 @@ public class SimulatorGUI {
 		qBox.add(qProbability, BorderLayout.CENTER);
 		pBox.add(pLabel, BorderLayout.WEST);
 		pBox.add(pProbability, BorderLayout.CENTER);
-		inputBox.add(stepsBox, BorderLayout.SOUTH);
-		inputBox.add(qBox, BorderLayout.NORTH);
-		inputBox.add(pBox, BorderLayout.CENTER);
+		inputBox.add(stepsBox, BorderLayout.NORTH);
+		inputBox.add(qProbBox, BorderLayout.CENTER);
+		inputBox.add(pProbBox, BorderLayout.SOUTH);
 		commandBox.add(machineBox, BorderLayout.CENTER);
 		commandBox.add(inputBox, BorderLayout.SOUTH);
 		controlBox.add(buttonBox, BorderLayout.SOUTH);
@@ -142,8 +149,9 @@ public class SimulatorGUI {
 		
 		runButton.addActionListener(new ActionListener(){
 			public void actionPerformed (ActionEvent e){
-				runApp(numSteps.getText(), qProbability.getText(), pProbability.getText(), numPackers.getText()
-						, numCheese.getText(), numBlueCheese.getText(), numSoup.getText());
+				
+				runApp(numSteps.getText(), qSlider.getValue(), pSlider.getValue(), numPackers.getText()
+						, numPerishable.getText(),  numNonPerishable.getText(), stages.getText());
 			
 			}
 		});
@@ -166,26 +174,26 @@ public class SimulatorGUI {
 			// Don't quit
 		}
 		
-		private void runApp(String steps, String qProb, String pProb, String packers, String cheese
-				, String cheeseBlue, String soup){
+		private void runApp(String steps, double qProb, double pProb, String packers, String perishable
+				, String nonPerishable, String stages){
 			int num = Integer.parseInt(steps);
-			double q = Double.parseDouble(qProb);
-			double p = Double.parseDouble(pProb);
+			double p = pProb;
+			double q = qProb;
 			int pack = Integer.parseInt(packers);
-			int c = Integer.parseInt(cheese);
-			int bc = Integer.parseInt(cheeseBlue);
-			int s = Integer.parseInt(soup);
-			if(q<0 || q>1 || p<0 || p>1){
+			int perish = Integer.parseInt(perishable);
+			int nperish = Integer.parseInt(nonPerishable);
+			int stage = Integer.parseInt(stages);
+			if(num<1 || num>7200){
 				JFrame errorFrame = new JFrame();
-				JOptionPane.showMessageDialog(errorFrame, "One or more of the values is not in the range of 0 - 1.", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(errorFrame, "Value set for Steps is not in the range of 1-7200.", "Error", JOptionPane.ERROR_MESSAGE);
 			}
-			else if(num<0){
+			else if(pack < 1 ||  nperish < 1 || perish < 1){
 				JFrame errorFrame = new JFrame();
-				JOptionPane.showMessageDialog(errorFrame, "Number of steps in the simulation can not be negative.", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(errorFrame, "Steps for packing or processing must be greater than or equal to 1.", "Error", JOptionPane.ERROR_MESSAGE);
 			}
-			else if(pack < 1 || c < 1 || bc < 1 || s < 1){
+			else if(stage < 1){
 				JFrame errorFrame = new JFrame();
-				JOptionPane.showMessageDialog(errorFrame, "Number of Machines must be at least 1.", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(errorFrame, "Stage must be greater than or equal to 1.", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 			else{
 				System.out.println("Simulation steps = " + num);
@@ -194,33 +202,14 @@ public class SimulatorGUI {
 				profits.append("Simulation steps = " + num + "\n");
 				profits.append("Probability of q = " + q + "\n");
 				profits.append("Probability pf p = " + p + "\n");
-				profits.append("Blue cheese processing machines = " + cheeseBlue + "\n");
-				profits.append("Number of soup powder processing machines = " + soup + "\n");
-				profits.append("Number of cheese processing machines = " + cheese + "\n");
-				profits.append("Number of packing machines = " + packers + "\n");
-				System.out.println(c);
-				System.out.println(bc);
-				System.out.println(s);
+				System.out.println(perish);
+				System.out.println(nperish);
+				System.out.println(stage);
 				System.out.println(pack);
-				foodFac.setQ(q);
-				foodFac.setP(p);
-				for(int i=0; i< c; i++){
-					int n = i+1;
-				machineFac.makeProcessor("Cheese", n);
-				}
-				for(int i =0; i<bc; i++){
-					int n = i+1;
-					machineFac.makeProcessor("BlueCheese", n);
-				}
-				for(int i=0; i<s; i++){
-					int n = i+1;
-					machineFac.makeProcessor("SoupPowder", n);
-				}
-				machineFac.generateMachines(10, pack);
-				
-				
-			}
+
 		}
+	}
 }
+
 
 
