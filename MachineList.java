@@ -1,5 +1,11 @@
 import java.util.ArrayList;
-
+import java.util.Iterator;
+/**
+ * MachineList keeps track of all <code>Machine</code> objects in the system
+ * It also provides methods to find the most optimal packer and next processor
+ * 
+ * @author Anthony Wall
+ */
 public class MachineList 
 {
 	private static ArrayList<ProcessingMachine> PROCESSORS = new ArrayList<ProcessingMachine>();
@@ -83,5 +89,26 @@ public class MachineList
 		sb.append(getNumberofPackers());
 		
 		return sb.toString();
+	}
+	
+	public static void reset()
+	{
+		Iterator<ProcessingMachine> iterProc = PROCESSORS.iterator();
+		
+		while(iterProc.hasNext())
+		{
+			ProcessingMachine proc = iterProc.next();
+			iterProc.remove();
+			proc = null;
+		}
+		
+		Iterator<PackingMachine> iterPack = PACKERS.iterator();
+		
+		while(iterPack.hasNext())
+		{
+			PackingMachine pack = iterPack.next();
+			iterPack.remove();
+			pack = null;
+		}
 	}
 }

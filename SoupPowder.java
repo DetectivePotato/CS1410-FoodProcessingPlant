@@ -1,10 +1,10 @@
 
 
-public class SoupPowder {
+public class SoupPowder extends NonPerishable{
 
-public SoupPowder()
+public SoupPowder(Machine startingMachine)
 {
-	super();
+	super(startingMachine);
 }
 
 

@@ -7,13 +7,23 @@ import org.junit.Test;
 
 public class FoodTest {
 	private Cheese c;
-	private Bluecheese bc;
+	//private Bluecheese bc;
+	private ProcessingMachine mac;
+	private ProcessingMachine mac2;
 
 	@Before
 	public void setup()
 	{
-		c = new Cheese(40);
-		bc = new Bluecheese(45);
+		mac = new ProcessingMachine(50, "Cheese", 1);
+		c = new Cheese(mac);
+		//mac2 = new ProcessingMachine(50, "BlueCheese", 1);
+		//bc = new Bluecheese(mac2);
+		
+		mac.queueItem(c);
+		c.setCurrentMachine(mac);
+		
+		//mac2.queueItem(bc);
+		//bc.setCurrentMachine(mac2);
 	}
 
 	@Test
@@ -27,12 +37,12 @@ public class FoodTest {
 				FoodList.ageFood();
 		}
 		assertNull(c);
-		assertNotNull(bc);
+		//assertNotNull(bc);
 	}
 	@Test
 	public void testGetCurrentMachine()
 	{
-		assertEquals(c.getCurrentMachine(), null);
+		assertEquals(c.getCurrentMachine(), mac);
 
 	}
 }

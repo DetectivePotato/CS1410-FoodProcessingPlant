@@ -17,10 +17,10 @@ public class ProfitStats
 		LOST_ITEMS++;
 	}
 	
-	public static float profit()
+	public static double profit()
 	{
-		float packed = PACKED_ITEMS * PACKED_COST;
-		float lost = LOST_ITEMS * LOST_COST;
+		double packed = PACKED_ITEMS * PACKED_COST;
+		double lost = LOST_ITEMS * LOST_COST;
 		
 		return (packed - lost) / 100;
 	}
@@ -40,4 +40,16 @@ public class ProfitStats
 		PACKED_ITEMS = 0;
 	}
 	
+	public static String printDetails()
+	{
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("Financial Statistics" + "\n");
+		sb.append("--------------------" + "\n");
+		sb.append("Lost Items: " + ProfitStats.getLost() + "\n");
+		sb.append("Packed Items: " + ProfitStats.getPacked() + "\n");
+		sb.append("Final Profit: £" + ProfitStats.profit() + "\n\n");
+		
+		return sb.toString();
+	}
 }

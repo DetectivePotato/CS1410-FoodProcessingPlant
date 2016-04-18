@@ -21,12 +21,6 @@ public class ProcessingMachine extends Machine
 		MachineList.addProcessor(this);
 	}
 	
-	public ProcessingMachine(int processingTime, String foodType, int newStage, int numStages)
-	{
-		this(processingTime, foodType, newStage);
-		PROCESSING_STAGES = numStages;
-	}
-	
 	public boolean queueItem(Food newFood)
 	{
 		if(newFood.getClass().getName().equals(foodType))
@@ -53,6 +47,7 @@ public class ProcessingMachine extends Machine
 			PackingMachine packer = MachineList.getBestPacker();
 
 			packer.queueItem(outputFood);
+			outputFood.setCurrentMachine(packer);
 		}
 	}
 	

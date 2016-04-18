@@ -1,19 +1,20 @@
 /**
- * This is the a Perishable Food object
+ * A subclass of perishable, representing Blue Cheese in the system
  * @author Sean Gladwish
  *
  */
-public class Cheese extends Perishable {
+public class BlueCheese extends Perishable{
 
 	//The time it takes to spoil
-	private static final int SPOIL_TIME = 45;
+	private static final int SPOIL_TIME = 40;
 	
 	/**
 	 * Constructor that calls all its inputs from the above super class Perishable
 	 */
-	public Cheese(Machine startingMachine)
+	public BlueCheese(Machine startingMachine)
 	{
 		super(SPOIL_TIME, startingMachine);
-
 	}
+
+	
 }

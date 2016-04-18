@@ -7,12 +7,8 @@
  */
 public class MachineFactory 
 {
-	private static int CHEESE_TIME = 20;
-	private static int BLUECHESE_TIME = 20;
-	private static int SOUP_TIME = 22;
-
-
-	public static void generateMachines(int packTime, int numPackers)
+	
+	public static void generateMachines(int perishableTime, int nonPerishableTime, int packTime, int numPackers)
 	{
 		//Find out how many processing stages are being used
 		int stages = getProcessingStages();
@@ -23,7 +19,7 @@ public class MachineFactory
 			for(int i = 0; i < FoodList.getNumFoodTypes(); i++)
 			{
 				//Create a machine based off the food type
-				makeProcessor(FoodList.getFoodType(i), s);
+				makeProcessor(FoodList.getFoodType(i), s, perishableTime, nonPerishableTime);
 				
 			}
 		}
@@ -49,7 +45,7 @@ public class MachineFactory
 	 * @param type The type of food
 	 * @param stage The processing stage this machine will occupy
 	 */
-	private static void makeProcessor(String type, int stage)
+	private static void makeProcessor(String type, int stage, int perishableTime, int nonPerishableTime)
 	{
 		//Default time
 		int processTime = 20;
@@ -57,15 +53,15 @@ public class MachineFactory
 		switch(type)
 		{
 			case "Cheese":
-				processTime = CHEESE_TIME;
+				processTime = perishableTime;
 				break;
 
 			case "BlueCheese":
-				processTime = BLUECHESE_TIME;
+				processTime = perishableTime;
 				break;
 
 			case "SoupPowder":
-				processTime = SOUP_TIME;
+				processTime = nonPerishableTime;
 				break;
 		}
 

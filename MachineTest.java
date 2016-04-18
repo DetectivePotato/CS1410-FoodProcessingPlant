@@ -18,7 +18,7 @@ public class MachineTest
 		packer = new PackingMachine(3);
 		processor = new ProcessingMachine(2, "Cheese", 1);
 		
-		cheese1 = new Cheese(40);
+		cheese1 = new Cheese(processor);
 	}
 
 	@Test

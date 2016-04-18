@@ -60,17 +60,17 @@ public abstract class Machine
 				currentItem = queue.removeFirst();
 				timeCounter = 1;
 			}
+			//Nothing is available to act upon so simply idle
+			else if(queue.size() == 0 && currentItem == null || currentItem == null)
+			{
+				//Do nothing
+			}
 			//Action has finished
 			else if(timeCounter == this.machineTime)
 			{
 				output(currentItem);
 				//Clear the machine for the next object
 				currentItem = null;
-			}
-			//Nothing is avaliable to act upon so simply idle
-			else if(queue.size() == 0 && currentItem == null)
-			{
-				//Do nothing
 			}
 			//Else continue the action and increment the timer
 			else

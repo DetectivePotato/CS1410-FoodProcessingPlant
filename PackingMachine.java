@@ -20,8 +20,8 @@ public class PackingMachine extends Machine
 		queue.add(newFood);
 		return true;
 	}
-	public void output(Food ouputFood)
+	public void output(Food outputFood)
 	{
-		ProfitStats.addPacked();
+		FoodList.packFood(outputFood);
 	}
 }

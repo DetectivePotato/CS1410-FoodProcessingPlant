@@ -8,6 +8,8 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -16,9 +18,15 @@ public class SimulatorGUI {
 	 
 		private JFrame mainFrame;
 		private JTextArea profits;	
+
+		public static void main(String[] args)
+		{
+			new SimulatorGUI();
+		}
 		
 		public SimulatorGUI(){
 		final int blankSpace = 6;
+
 		
 		// Step 1: create the components
 		JButton runButton = new JButton();
@@ -26,20 +34,22 @@ public class SimulatorGUI {
 		profits = new JTextArea();
 		profits.setEditable(false);
 		JScrollPane listScroller = new JScrollPane(profits);
-		JTextField qProbability = new JTextField();
+		final JTextField qProbability = new JTextField();
 		JLabel qLabel = new JLabel("Q Probability");
-		JTextField pProbability = new JTextField();
+		final JTextField pProbability = new JTextField();
 		JLabel pLabel = new JLabel("P Probability");
-		JTextField numSteps = new JTextField();
+		final JTextField numSteps = new JTextField();
 		JLabel stepsLabel = new JLabel("Simulation Steps");
-		JTextField numCheese = new JTextField();
-		JLabel cheeseLabel = new JLabel("Cheese Processors:");
-		JTextField numBlueCheese = new JTextField();
-		JLabel blueCheeseLabel = new JLabel("Blue Cheese Processors:");
-		JTextField numSoup = new JTextField();
-		JLabel soupLabel = new JLabel("Soup powder Processors:");
-		JTextField numPackers = new JTextField();
-		JLabel packersLabel = new JLabel("Packers:");
+		final JTextField numPerishable = new JTextField();
+		JLabel perishLabel = new JLabel("perishable Processing Time:");
+		final JTextField numNonPerishable = new JTextField();
+		JLabel nPerishLabel = new JLabel("Non-perishable Processing time:");
+		final JTextField packerTime = new JTextField();
+		JLabel packersLabel = new JLabel("Packing Time:");
+		final LabelledSlider qSlider = new LabelledSlider("Q Probability: ", 1, 5,3);
+		final LabelledSlider pSlider = new LabelledSlider("P Probability: ", 1, 5,3);
+		final JTextField  numPackers = new JTextField();
+		JLabel numPackerLabel = new JLabel("Number of packers:");
 		
 		// Step 2: Set the properties of the components
 		runButton.setText("Run");
@@ -51,28 +61,33 @@ public class SimulatorGUI {
 				+ "Values must be set between 0-1");
 		pProbability.setToolTipText("set the probability for the creation of non-perishible foods.\n " 
 				+ "Values must be set between 0-1");
-		numCheese.setToolTipText("Set the number of cheese processing machines.");
-		numBlueCheese.setToolTipText("Set the number of blue cheese processing machines.");
-		numSoup.setToolTipText("Set the number of soup powder processing machines.");
-		numPackers.setToolTipText("Set the number of packing machines.");
+		numPerishable.setToolTipText("Set the number of steps it takes for a perishable processing machine to process its item.");
+		numNonPerishable.setToolTipText("Set the nummber of steps it takes for a Non-perishable processing machine to process an item.");
+		packerTime.setToolTipText("Set the number of steps it takes a packing machine to pack an item.");
+		qSlider.setMajorTickSpacing(5);
+		pSlider.setMajorTickSpacing(5);
+		numPackers.setToolTipText("Set the the numver of packing machines");
 		listScroller.setPreferredSize(new Dimension(300,300));
 		listScroller.setMinimumSize(new Dimension(200,200));
 		
+		
 		// Step 3: Create containers to hold the components
 		mainFrame = new JFrame("Factory simulation");
+		JPanel numPackBox = new JPanel();
 		JPanel stepsBox = new JPanel();
 		JPanel buttonBox = new JPanel();
 		JPanel controlBox = new JPanel();
 		JPanel pBox = new JPanel();
 		JPanel qBox = new JPanel();
 		JPanel inputBox = new JPanel();
-		JPanel cheeseBox = new JPanel();
-		JPanel blueCheeseBox = new JPanel();
-		JPanel soupBox = new JPanel();
+		JPanel perishBox = new JPanel();
+		JPanel nPerishBox = new JPanel();
 		JPanel packerBox = new JPanel();
 		JPanel machineBox = new JPanel();
 		JPanel processorBox = new JPanel();
 		JPanel commandBox = new JPanel();
+		JPanel qProbBox = new JPanel();
+		JPanel pProbBox = new JPanel();
 		mainFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		
 		
@@ -87,27 +102,30 @@ public class SimulatorGUI {
 		JPanel profitBox = (JPanel) mainFrame.getContentPane();
 		profitBox.setBorder(new 
 				EmptyBorder(blankSpace, blankSpace, blankSpace, blankSpace));
-		cheeseBox.setLayout(new BorderLayout());
-		blueCheeseBox.setLayout(new BorderLayout());
-		soupBox.setLayout(new BorderLayout());
+		perishBox.setLayout(new BorderLayout());
+		nPerishBox.setLayout(new BorderLayout());
 		packerBox.setLayout(new BorderLayout());
 		machineBox.setLayout(new BorderLayout());
 		processorBox.setLayout(new BorderLayout());
 		commandBox.setLayout(new BorderLayout());
-		
+		qProbBox.setLayout(new BorderLayout());
+		pProbBox.setLayout(new BorderLayout());
+		numPackBox.setLayout(new BorderLayout());
 		
 		// Step 5: Add components to containers
+		numPackBox.add(numPackerLabel, BorderLayout.WEST);
+		numPackBox.add(numPackers, BorderLayout.CENTER);
+		pProbBox.add(pSlider, BorderLayout.CENTER);
+		qProbBox.add(qSlider, BorderLayout.CENTER);
 		packerBox.add(packersLabel, BorderLayout.WEST);
-		packerBox.add(numPackers, BorderLayout.CENTER);
-		soupBox.add(soupLabel, BorderLayout.WEST);
-		soupBox.add(numSoup, BorderLayout.CENTER);
-		blueCheeseBox.add(blueCheeseLabel, BorderLayout.WEST);
-		blueCheeseBox.add(numBlueCheese, BorderLayout.CENTER);
-		cheeseBox.add(cheeseLabel, BorderLayout.WEST);
-		cheeseBox.add(numCheese, BorderLayout.CENTER);
-		processorBox.add(cheeseBox, BorderLayout.NORTH);
-		processorBox.add(blueCheeseBox, BorderLayout.CENTER);
-		processorBox.add(soupBox, BorderLayout.SOUTH);
+		packerBox.add(packerTime, BorderLayout.CENTER);
+		nPerishBox.add(nPerishLabel, BorderLayout.WEST);
+		nPerishBox.add(numNonPerishable, BorderLayout.CENTER);
+		perishBox.add(perishLabel, BorderLayout.WEST);
+		perishBox.add(numPerishable, BorderLayout.CENTER);
+		processorBox.add(perishBox, BorderLayout.NORTH);
+		processorBox.add(nPerishBox, BorderLayout.SOUTH);
+		machineBox.add(numPackBox, BorderLayout.NORTH);
 		machineBox.add(processorBox, BorderLayout.CENTER);
 		machineBox.add(packerBox, BorderLayout.SOUTH);
 		buttonBox.add(runButton);
@@ -118,9 +136,9 @@ public class SimulatorGUI {
 		qBox.add(qProbability, BorderLayout.CENTER);
 		pBox.add(pLabel, BorderLayout.WEST);
 		pBox.add(pProbability, BorderLayout.CENTER);
-		inputBox.add(stepsBox, BorderLayout.SOUTH);
-		inputBox.add(qBox, BorderLayout.NORTH);
-		inputBox.add(pBox, BorderLayout.CENTER);
+		inputBox.add(stepsBox, BorderLayout.NORTH);
+		inputBox.add(qProbBox, BorderLayout.CENTER);
+		inputBox.add(pProbBox, BorderLayout.SOUTH);
 		commandBox.add(machineBox, BorderLayout.CENTER);
 		commandBox.add(inputBox, BorderLayout.SOUTH);
 		controlBox.add(buttonBox, BorderLayout.SOUTH);
@@ -129,6 +147,12 @@ public class SimulatorGUI {
 		mainFrame.add(listScroller, BorderLayout.NORTH);
 		
 		// Step 6: Arrange to handle events in the user interface
+		 mainFrame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e){
+				exitApp();
+			}
+		});
+		
 		quitButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e){
 					exitApp();
@@ -137,9 +161,9 @@ public class SimulatorGUI {
 		
 		runButton.addActionListener(new ActionListener(){
 			public void actionPerformed (ActionEvent e){
-				runApp(numSteps.getText(), qProbability.getText(), pProbability.getText(), numPackers.getText()
-						, numCheese.getText(), numBlueCheese.getText(), numSoup.getText());
-			
+				
+			runApp(numSteps.getText(), qSlider.getValue(), pSlider.getValue(), packerTime.getText()
+						, numPerishable.getText(),  numNonPerishable.getText(), numPackers.getText() );
 			}
 		});
 		
@@ -148,6 +172,7 @@ public class SimulatorGUI {
 		mainFrame.setVisible(true);
 		
 		}
+		
 		
 		private void exitApp() {
 			int response = JOptionPane.showConfirmDialog(mainFrame,
@@ -161,44 +186,63 @@ public class SimulatorGUI {
 			// Don't quit
 		}
 		
-		private void runApp(String steps, String qProb, String pProb, String packers, String cheese
-				, String cheeseBlue, String soup){
-			int num = Integer.parseInt(steps);
-			double q = Double.parseDouble(qProb);
-			double p = Double.parseDouble(pProb);
-			int pack = Integer.parseInt(packers);
-			int c = Integer.parseInt(cheese);
-			int bc = Integer.parseInt(cheeseBlue);
-			int s = Integer.parseInt(soup);
-			if(q<0 || q>1 || p<0 || p>1){
-				JFrame errorFrame = new JFrame();
-				JOptionPane.showMessageDialog(errorFrame, "One or more of the values is not in the range of 0 - 1.", "Error", JOptionPane.ERROR_MESSAGE);
+		private void runApp(String numSteps, double qProb, double pProb, String packerTime, String perishable
+				, String nonPerishable, String numPackers)
+		{	
+			try
+			{
+				int numberSteps = Integer.parseInt(numSteps);
+				int packingTime = Integer.parseInt(packerTime);
+				int perishableTime = Integer.parseInt(perishable);
+				int nonPerishableTime = Integer.parseInt(nonPerishable);
+				int numberPackers = Integer.parseInt(numPackers);
+				
+				
+				if(numberSteps <= 0 || numberSteps > 7200)
+				{
+					JOptionPane.showMessageDialog(mainFrame,
+							"Number of steps must be between 1 and 7200!");
+				}
+				
+				if(numberPackers <= 0)
+				{
+					JOptionPane.showMessageDialog(mainFrame,
+							"Number of packers must be greater than 0!");
+				}
+				
+				if(packingTime <= 0)
+				{
+					JOptionPane.showMessageDialog(mainFrame,
+							"Packing Time must be greater than 0!");
+				}
+				
+				if(perishableTime <= 0)
+				{
+					JOptionPane.showMessageDialog(mainFrame,
+							"Perishable time must be greater than 0!");
+				}
+				
+				if(nonPerishableTime <= 0)
+				{
+					JOptionPane.showMessageDialog(mainFrame,
+							"Non-Perishable time must be greater than 0!");
+				}
+				
+				String results = Simulator.run(numberSteps, qProb, pProb, packingTime, perishableTime, nonPerishableTime, numberPackers);
+				
+				displayString(results);
 			}
-			else if(num<0){
-				JFrame errorFrame = new JFrame();
-				JOptionPane.showMessageDialog(errorFrame, "Number of steps in the simulation can not be negative.", "Error", JOptionPane.ERROR_MESSAGE);
+			catch(Exception e)
+			{
+				
 			}
-			else if(pack < 1 || c < 1 || bc < 1 || s < 1){
-				JFrame errorFrame = new JFrame();
-				JOptionPane.showMessageDialog(errorFrame, "Number of Machines must be at least 1.", "Error", JOptionPane.ERROR_MESSAGE);
-			}
-			else{
-				System.out.println("Simulation steps = " + num);
-				System.out.println("Probability of q =  " + q);
-				System.out.println("Probability of p = " + p);
-				profits.append("Simulation steps = " + num + "\n");
-				profits.append("Probability of q = " + q + "\n");
-				profits.append("Probability pf p = " + p + "\n");
-				profits.append("Blue cheese processing machines = " + cheeseBlue + "\n");
-				profits.append("Number of soup powder processing machines = " + soup + "\n");
-				profits.append("Number of cheese processing machines = " + cheese + "\n");
-				profits.append("Number of packing machines = " + packers + "\n");
-				System.out.println(c);
-				System.out.println(bc);
-				System.out.println(s);
-				System.out.println(pack);
-			}
+
 		}
+		
+	private void displayString(String text){
+		profits.append(text);
+	}
 }
+
 
 
