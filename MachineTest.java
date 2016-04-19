@@ -2,9 +2,14 @@ import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
+/**
+ * Tests to ensure that the Machine superclass and Processing/Packing subclasses function correctly especially with
+ * their abstract methods output and queueItem
+ * 
+ * @author Anthony Wall
+ */
 public class MachineTest 
 {
 	private static ProcessingMachine processor;

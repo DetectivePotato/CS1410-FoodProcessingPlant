@@ -2,7 +2,11 @@ import static org.junit.Assert.*;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-
+/**
+ * Test the arithmatic functions of the ProfitStats class
+ * 
+ * @author Anthony wall
+ */
 public class ProfitStatsTest {
 
 	@BeforeClass

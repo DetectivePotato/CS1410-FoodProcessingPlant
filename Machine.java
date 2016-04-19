@@ -1,4 +1,5 @@
 import java.util.ArrayDeque;
+import java.util.Random;
 
 /**
 *	The Machine abstract class provides the key functions of all types of machines.
@@ -16,6 +17,9 @@ public abstract class Machine
 	protected ArrayDeque<Food> queue;
 	protected Food currentItem;
 	protected boolean jammed;
+	private static final int SEED = 42;
+	private final Random rnd = new Random(SEED);
+	private static final double JAM_PROBABILITY = 0.001;
 	
 	/**
 	*	Constructor for all Machine objects	
@@ -44,6 +48,7 @@ public abstract class Machine
 			if(timeCounter == REPAIR_TIME)
 			{
 				jammed = false;
+				System.out.println("Machine repaired");
 				
 			}
 			else
@@ -53,8 +58,13 @@ public abstract class Machine
 		}
 		else
 		{
+			//Perform a random number calculation to determine if the machine will jam
+			if(rnd.nextDouble() < JAM_PROBABILITY)
+			{
+				jamMachine();
+			}			
 			//Check if there is an object being processed, if not check if one is avaliable in the queue
-			if(queue.size() > 0 && currentItem == null)
+			else if(queue.size() > 0 && currentItem == null)
 			{
 				//Get the first object in the queue
 				currentItem = queue.removeFirst();
@@ -89,6 +99,7 @@ public abstract class Machine
 		timeCounter = 1;
 		currentItem = null;
 		ProfitStats.addLost();
+		System.out.println("Machine jammed");
 	}
 	
 	/**

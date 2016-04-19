@@ -8,9 +8,15 @@ import java.util.Iterator;
  */
 public class MachineList 
 {
+	//The two ArrayLists used to store the two types of machines in the system
 	private static ArrayList<ProcessingMachine> PROCESSORS = new ArrayList<ProcessingMachine>();
 	private static ArrayList<PackingMachine> PACKERS = new ArrayList<PackingMachine>();
 	
+	/**
+	 * Add a new processor to the respective list
+	 * 
+	 * @param newProcessor the processor to add to the list
+	 */
 	public static void addProcessor(ProcessingMachine newProcessor)
 	{
 		if(newProcessor != null)
@@ -18,7 +24,11 @@ public class MachineList
 			PROCESSORS.add(newProcessor);
 		}
 	}
-	
+	/**
+	 * Add a new packer to the respective list
+	 * 
+	 * @param newPacker the packer to add to the list
+	 */
 	public static void addPacker(PackingMachine newPacker)
 	{
 		if(newPacker != null)
@@ -27,6 +37,12 @@ public class MachineList
 		}
 	}
 	
+	/**
+	 * Returns the next machine in the processing stage (or null if it is the final stage)
+	 * 
+	 * @param foodType the type of food being handled
+	 * @param currentStage the current stage of processing
+	 */
 	public static ProcessingMachine getNextProcessor(String foodType, int currentStage)
 	{
 		for(ProcessingMachine processor : PROCESSORS)
@@ -40,10 +56,15 @@ public class MachineList
 		return null;
 	}
 	
+	/**
+	 * Returns the packer with the shortest queue
+	 */
 	public static PackingMachine getBestPacker()
 	{
+		//Begin with the first packer in the list
 		PackingMachine bestPacker = PACKERS.get(0);
 		
+		//Iterate through to see if any packers have a shorter queue
 		for(PackingMachine testPacker : PACKERS)
 		{
 			if(testPacker.getQueueSize() < bestPacker.getQueueSize())
@@ -55,6 +76,9 @@ public class MachineList
 		return bestPacker;
 	}
 	
+	/**
+	 * Iterate through all the machines in the system and invoke their act methods
+	 */
 	public static void activateMachines()
 	{
 		for(ProcessingMachine processor : PROCESSORS)
@@ -68,16 +92,25 @@ public class MachineList
 		}
 	}
 	
+	/**
+	 * Returns the number of Processing Machines in the system
+	 */
 	public static int getNumberofProcessors()
 	{
 		return PROCESSORS.size();
 	}
 	
+	/**
+	 * Returns the number of Packing Machines in the system
+	 */
 	public static int getNumberofPackers()
 	{
 		return PACKERS.size();
 	}
 	
+	/**
+	 * Returns a string detailing the machines in the system
+	 */
 	public static String printDetails()
 	{
 		StringBuilder sb = new StringBuilder();
@@ -91,6 +124,9 @@ public class MachineList
 		return sb.toString();
 	}
 	
+	/**
+	 * Reset and "delete" all machines currently in the system for a fresh restart
+	 */
 	public static void reset()
 	{
 		Iterator<ProcessingMachine> iterProc = PROCESSORS.iterator();

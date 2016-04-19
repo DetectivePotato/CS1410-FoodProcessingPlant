@@ -10,17 +10,38 @@
  */
 public class Simulator 
 {
-	private static int NUM_PACKERS = 2;
+	//Define all the required simulation variables
+	private static int NUM_PACKERS;
 	private static int PACK_TIME;
 	private static int NUM_STEPS;
 	private static int PERISHABLE_TIME;
 	private static int NONPERISHABLE_TIME;
 	private static int STEP = 0;
 	
+	/**
+	 * Reset the system to prevent feedback, format and initialise all the simulation variables, setup all the machines
+	 * in the system, iterate the required step actions for the duration of the simulation and return the 
+	 * financial report to the GUI
+	 * 
+	 * @param numSteps the total number of steps to run the simulation for
+	 * 
+	 * @param qProb the probability of creating a non-perishable item
+	 * @param pProb the probability of creating a perishable item
+	 * 
+	 * @param packTime the time it takes for PackingMachines to act
+	 * @param perishableTime the time it takes for perishable food ProcessingMachines to act
+	 * @param nonPerishableTime the time it takes for non-perishable food ProcessingMachines to act
+	 * 
+	 * @param numPackers the number of PackingMachines in the system
+	 * 
+	 * @return the final financial report to the GUI
+	 */
 	public static String run(int numSteps, double qProb, double pProb, int packTime, int perishableTime, int nonPerishableTime, int numPackers)
 	{
+		//Reset the system
 		reset();
 		
+		//Initialise all the simulation variables
 		NUM_STEPS = numSteps;
 		FoodFactory.setQ(qProb/100);
 		FoodFactory.setP(pProb/100);
@@ -29,8 +50,10 @@ public class Simulator
 		PERISHABLE_TIME = perishableTime;
 		NONPERISHABLE_TIME = nonPerishableTime;
 		
+		//Create all the machines in the system
 		setup();
 		
+		//Iterate the simulation
 		while(STEP < NUM_STEPS)
 		{
 			oneStep();
@@ -38,7 +61,10 @@ public class Simulator
 			STEP++;
 		}
 		
+		//Debug log
 		System.out.println("Food in list at end: " + FoodList.getNum());
+		
+		//Return the financial report
 		return ProfitStats.printDetails();
 
 	}
@@ -68,6 +94,9 @@ public class Simulator
 		MachineList.activateMachines();
 	}
 	
+	/**
+	 * Resets everything in the system to allow for a fresh restart
+	 */
 	private static void reset()
 	{
 		MachineList.reset();

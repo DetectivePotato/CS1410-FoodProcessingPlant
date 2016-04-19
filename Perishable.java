@@ -11,6 +11,7 @@ public class Perishable extends Food{
 
 	/**
 	 * Constructor for all Perishable Food objects
+	 * 
 	 * @param spoilTime is the time steps unit a Food objects spoils
 	 * @param startingMachine the machine that the Food object starts in
 	 */

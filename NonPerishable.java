@@ -8,6 +8,7 @@ public class NonPerishable extends Food{
 
 	/**
 	 * Constructor For New Nonperishable Food objects
+	 * 
 	 * @param startingMachine The machine that the food starts in
 	 */
 	public NonPerishable(Machine startingMachine)

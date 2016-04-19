@@ -10,6 +10,8 @@ public class Cheese extends Perishable {
 	
 	/**
 	 * Constructor that calls all its inputs from the above super class Perishable
+	 * 
+	 * @param startingMachine the machine to place the Food object in
 	 */
 	public Cheese(Machine startingMachine)
 	{

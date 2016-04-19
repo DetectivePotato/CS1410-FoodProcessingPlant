@@ -11,7 +11,9 @@ public abstract class Food {
 	
 	/**
 	 * Constructor for new Food objects
+	 * 
 	 * @param perishable is to see if the food is perishable or nonperishable
+	 * @param startingMachine the machine to place the Food object in
 	 */
 	public Food(boolean perishable, Machine startingMachine)
 	{
